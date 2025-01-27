@@ -1,14 +1,32 @@
 {
   "name": "poc-bidi-playwright",
   "version": "1.0.0",
-  "description": "",
+  "description": "poc-bidi-playwright",
   "main": "index.js",
-  "scripts": {},
-  "keywords": [],
-  "author": "",
+  "scripts": {
+    "lint": "prettier tests/ playwright.config.ts package.json --write && eslint tests/"
+  },
+  "keywords": [
+    "e2e",
+    "node",
+    "playwright"
+  ],
+  "author": "ghillaz",
   "license": "ISC",
   "devDependencies": {
+    "@dotenvx/dotenvx": "^1.14.2",
+    "@eslint/js": "^9.10.0",
+    "@estruyf/github-actions-reporter": "^1.9.2",
     "@playwright/test": "^1.50.0",
-    "@types/node": "^22.10.10"
+    "@types/node": "^22.10.10",
+    "@typescript-eslint/eslint-plugin": "^8.6.0",
+    "@typescript-eslint/parser": "^8.6.0",
+    "eslint": "^9.19.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-playwright": "^1.6.2",
+    "eslint-plugin-prettier": "^5.2.1",
+    "globals": "^15.9.0",
+    "prettier": "3.3.3",
+    "typescript-eslint": "^8.6.0"
   }
 }
