@@ -4,7 +4,9 @@
   "description": "poc-bidi-playwright",
   "main": "index.js",
   "scripts": {
-    "lint": "prettier tests/ playwright.config.ts package.json --write && eslint tests/"
+    "lint": "prettier tests/ playwright.config.ts package.json --write && eslint tests/",
+    "test:ui": "dotenvx run -f ${ENV:-.default.env} -- npx playwright test --ui",
+    "test:ci": "dotenvx run -f ${ENV:-.default.env} -- npx playwright test"
   },
   "keywords": [
     "e2e",

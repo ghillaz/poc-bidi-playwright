@@ -67,13 +67,13 @@ Create a file named `.env.local` in the root of the project with the following c
 Execute the tests with:
 
 ```shell script
-npx playwright test
+dotenvx run -f ${ENV:-.default.env} -- npx playwright test
 ```
 
 If you want to run the tests in headless mode without playwright UI you can run:
 
 ```shell script
-npx playwright test --ui
+dotenvx run -f ${ENV:-.default.env} -- npx playwright test --ui
 ```
 
 ## CI/CD 🔄
