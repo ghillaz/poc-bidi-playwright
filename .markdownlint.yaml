@@ -14,3 +14,7 @@ MD013:
 MD024:
   allow_different_nesting: true
   siblings_only: true
+
+# Ignore LICENSE.md
+ignore:
+  - LICENSE.md
