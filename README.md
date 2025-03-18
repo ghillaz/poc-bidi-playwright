@@ -54,7 +54,7 @@ file in the root of the project, with proper values for the environment variable
 When running it relies on [dotenvx] to manage environment variables and support
 multiple environments.
 
-Create a file named `.env.local` in the root of the project with the following content:
+Create a file named `.local.env` in the root of the project with the following content:
 
 | Environment Variable                | Description                                                   |
 |-------------------------------------|---------------------------------------------------------------|
@@ -64,13 +64,13 @@ Create a file named `.env.local` in the root of the project with the following c
 
 ### Running the tests
 
-Execute the tests with:
+Execute the tests with in headless mode without playwright UI you can run:
 
 ```shell script
 dotenvx run -f ${ENV:-.default.env} -- npx playwright test
 ```
 
-If you want to run the tests in headless mode without playwright UI you can run:
+If you want to run with UI you can run:
 
 ```shell script
 dotenvx run -f ${ENV:-.default.env} -- npx playwright test --ui
