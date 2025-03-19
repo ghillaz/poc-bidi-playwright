@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { PlaywrightDevPage } from "@/pages/playwright-dev-page";
-import { PlaywrightGetStartedPage } from "../src/pages/playwright-getstarted-page";
-import { PlaywrightPOMPage } from "../src/pages/playwright-pom-page";
+import { PlaywrightGetStartedPage } from "@/pages/playwright-getstarted-page";
+import { PlaywrightPOMPage } from "@/pages/playwright-pom-page";
 
 test("getting started should contain table of contents", async ({ page }) => {
   const playwrightDev = new PlaywrightDevPage(page);

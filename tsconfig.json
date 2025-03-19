@@ -1,10 +1,14 @@
 {
-    "compilerOptions": {
-      "types": ["node"],
-      "baseUrl": ".",
-      "paths": {
-        "@/*": ["src/*"]
-      },
-    },
-    "include": ["./src/env.d.ts", "./**/*.ts"]
+  "compilerOptions": {
+    "types": ["node"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": [
+    "./src/env.d.ts",
+    "./**/*.ts",
+    "./ws-server.ts"  // Explicitly include the WebSocket server file
+  ]
 }

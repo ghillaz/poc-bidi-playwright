@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "prettier tests/ playwright.config.ts package.json --write && eslint tests/",
+    "start-server": "npx tsx src/ws-server.ts",
     "test:ui": "dotenvx run -f ${ENV:-.default.env} -- npx playwright test --ui",
     "test:ci": "dotenvx run -f ${ENV:-.default.env} -- npx playwright test"
   },
@@ -30,5 +31,8 @@
     "globals": "^15.9.0",
     "prettier": "3.3.3",
     "typescript-eslint": "^8.6.0"
+  },
+  "dependencies": {
+    "ws": "^8.18.1"
   }
 }
