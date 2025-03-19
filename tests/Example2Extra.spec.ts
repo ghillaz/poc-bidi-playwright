@@ -1,74 +1,59 @@
 import { test, expect } from '@playwright/test';
 
-// Mocked data with fixed values
-const mockResponse = {
-  d: {
-    id: 1,
-    p: 50,  // Mocked current price
-    p24h: 1,      // Mocked 24h price change
-    p7d: 1,       // Mocked 7d price change
-    p30d: 1,      // Mocked 30d price change
-    p3m: 1,       // Mocked 3-month price change
-    p1y: 1,       // Mocked 1-year price change
-    pytd: 1,      // Mocked year-to-date change
-    pall: 1,      // Mocked total market value
-    as: 1,        // Mocked 24h trading volume
-    mc: 1,        // Mocked market cap
-    fmc24hpc: 1   // Mocked 24-hour percentage change
-  },
-  t: String(Date.now()), // Current timestamp
+// Mocked responses for different WebSocket subscriptions
+const mockResponse5s = {
+  d: { id: 1, p: 50, p24h: 1, p7d: 1, p30d: 1, p3m: 1, p1y: 1, pytd: 1, pall: 1, as: 1, mc: 1, fmc24hpc: 1 },
+  t: String(Date.now()),
   c: "main-site@crypto_price_5s@1@normal"
 };
 
-test('Mock WebSocket messages on CoinMarketCap and check price update', async ({ page }) => {
-  // Set up a flag in the browser context to track mock response reception
-  await page.evaluate(() => {
-    window.mockPriceReceived = false; // Initialize the flag in the browser context
-  });
+const mockResponse15s = {
+  d: { id: 1, p: 50, p24h: 1, p7d: 1, p30d: 1, p3m: 1, p1y: 1, pytd: 1, pall: 1, as: 1, mc: 1, fmc24hpc: 1 },
+  t: String(Date.now()),
+  c: "main-site@crypto_price_15s@1@detail"
+};
 
-  let mockResponseReceived = false;
+test.beforeEach(async ({ page }) => {
+  let mock5sSent = false;
+  let mock15sSent = false;
 
-  // Intercept and mock WebSocket
   await page.routeWebSocket(`${process.env.WEB_SOCKET_URL}`, ws => {
     ws.onMessage(message => {
-      console.log('Intercepted message:', message);
+      const messageStr = message.toString();
+      console.log('Intercepted WebSocket message:', message);
 
-      // Send mocked response only once and block further updates
-      if (!mockResponseReceived) {
-        console.log('Sending mocked response:', JSON.stringify(mockResponse));
-        ws.send(JSON.stringify(mockResponse)); // Send mocked message
-        mockResponseReceived = true; // Mark the mock response as sent
+      const parsedMessage = JSON.parse(messageStr);
+      const subscription = parsedMessage.params?.[0];
 
-        // Ensure no other WebSocket messages are processed after sending the mock response
-        ws.close(); // Close WebSocket connection after sending mock response
+      if (subscription?.includes("crypto_price_5s") && !mock5sSent) {
+        console.log('Sending mocked response for 5s:', JSON.stringify(mockResponse5s));
+        ws.send(JSON.stringify(mockResponse5s));
+        mock5sSent = true;
+      }
+
+      if (subscription?.includes("crypto_price_15s") && !mock15sSent) {
+        console.log('Sending mocked response for 15s:', JSON.stringify(mockResponse15s));
+        ws.send(JSON.stringify(mockResponse15s));
+        mock15sSent = true;
       }
     });
   });
+});
 
-  // Navigate to the site
+test('Mock WebSocket messages and verify price update', async ({ page }) => {
   await page.goto(`${process.env.BTC_URL}`);
 
-  // Wait for the price element to load
   const priceElement = await page.waitForSelector('[data-test="text-cdp-price-display"]');
+  await priceElement.waitForElementState('visible');
 
-  // Add logging inside waitForFunction to help track the flag status in the browser context
-  await page.waitForFunction(() => {
-    console.log('Checking flag status:', window.mockPriceReceived); // Log flag status
-    return window.mockPriceReceived === true;
-  });
+  await page.waitForTimeout(5000); // Allow time for UI to process WebSocket updates
 
-  // Get the price displayed on the page
   const priceText = await priceElement.innerText();
   console.log('Price text on page:', priceText);
 
-  // Clean the price text to remove any non-numeric characters except for the decimal and minus sign
-  const cleanedPrice = priceText.replace(/[^0-9.-]+/g, ''); // Remove '$' and other non-numeric characters
+  const cleanedPrice = priceText.replace(/[^0-9.-]+/g, '');
+  console.log('Cleaned price:', cleanedPrice);
 
-  console.log('Cleaned price:', cleanedPrice); // Log the cleaned price
-
-  // Assert that the displayed price matches the mocked price
-  expect(parseFloat(cleanedPrice)).toBe(mockResponse.d.p); // Compare cleaned price to mockResponse.d.p
-
-  // Pause execution for debugging
+  expect(parseFloat(cleanedPrice)).toBe(mockResponse5s.d.p);
   await page.pause();
 });
