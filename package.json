@@ -7,6 +7,7 @@
     "lint": "prettier tests/ playwright.config.ts package.json --write && eslint tests/",
     "start-server": "npx tsx src/ws-server.ts",
     "test:ui": "dotenvx run -f ${ENV:-.default.env} -- npx playwright test --ui",
+    "test:debbug": "dotenvx run -f ${ENV:-.default.env} -- npx playwright test tests/Example2Extra.spec.ts --headed",
     "test:ci": "dotenvx run -f ${ENV:-.default.env} -- npx playwright test"
   },
   "keywords": [

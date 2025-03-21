@@ -1,4 +1,6 @@
 import { test, expect } from '@playwright/test';
+import { CoinMarketCapPage } from "@/pages/coinmarketcap-page";
+import { PlaywrightGetStartedPage } from "../src/pages/playwright-getstarted-page";
 
 // Mocked responses for different WebSocket subscriptions
 const mockResponse5s = {
@@ -14,8 +16,6 @@ const mockResponse15s = {
 };
 
 test.beforeEach(async ({ page }) => {
-  let mock5sSent = false;
-  let mock15sSent = false;
 
   await page.routeWebSocket(`${process.env.WEB_SOCKET_URL}`, ws => {
     ws.onMessage(message => {
@@ -25,35 +25,35 @@ test.beforeEach(async ({ page }) => {
       const parsedMessage = JSON.parse(messageStr);
       const subscription = parsedMessage.params?.[0];
 
-      if (subscription?.includes("crypto_price_5s") && !mock5sSent) {
+      if (subscription?.includes("crypto_price_5s")) {
         console.log('Sending mocked response for 5s:', JSON.stringify(mockResponse5s));
         ws.send(JSON.stringify(mockResponse5s));
-        mock5sSent = true;
       }
 
-      if (subscription?.includes("crypto_price_15s") && !mock15sSent) {
+      if (subscription?.includes("crypto_price_15s")) {
         console.log('Sending mocked response for 15s:', JSON.stringify(mockResponse15s));
         ws.send(JSON.stringify(mockResponse15s));
-        mock15sSent = true;
       }
     });
   });
 });
 
 test('Mock WebSocket messages and verify price update', async ({ page }) => {
+  const coinMarketCapPage = new CoinMarketCapPage(page);
+
   await page.goto(`${process.env.BTC_URL}`);
 
-  const priceElement = await page.waitForSelector('[data-test="text-cdp-price-display"]');
-  await priceElement.waitForElementState('visible');
+  // Wait for the page to load Flaky Test
 
-  await page.waitForTimeout(5000); // Allow time for UI to process WebSocket updates
 
-  const priceText = await priceElement.innerText();
+  await coinMarketCapPage.assertVisibilityChartElement()
+
+  await coinMarketCapPage.assertVisibilityPriceElement()
+  const priceText = await coinMarketCapPage.getInnerTextPriceElement();
   console.log('Price text on page:', priceText);
 
   const cleanedPrice = priceText.replace(/[^0-9.-]+/g, '');
   console.log('Cleaned price:', cleanedPrice);
 
   expect(parseFloat(cleanedPrice)).toBe(mockResponse5s.d.p);
-  await page.pause();
 });

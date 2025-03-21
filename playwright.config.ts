@@ -25,7 +25,7 @@ export default defineConfig({
     ],
     ["html", { open: process.env.CI ? "never" : "on-failure" }],
   ],
-  timeout: 15000,
+  timeout: 10000,
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
