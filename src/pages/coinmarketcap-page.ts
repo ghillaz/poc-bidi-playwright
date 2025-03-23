@@ -5,6 +5,7 @@ export class CoinMarketCapPage {
   readonly priceElement: Locator;
   readonly chartElement: Locator;
   readonly buyBtcButton: Locator;
+  readonly loadingChart: Locator;
 
   // Elements on the page
   constructor(page: Page) {
@@ -12,7 +13,7 @@ export class CoinMarketCapPage {
     this.priceElement = page.locator('[data-test="text-cdp-price-display"]');
     this.chartElement = page.locator('.highcharts-background');
     this.buyBtcButton = page.locator('div[data-role="btn-content-item"]');
-
+    this.loadingChart = page.locator('p').filter({ hasText: 'Please wait a moment.' });
   }
 
   async assertVisibilityPriceElement()  {
@@ -24,6 +25,11 @@ export class CoinMarketCapPage {
   }
 
   async assertVisibilityChartElement()  {
+    const loadingChartElements = await this.loadingChart.all()
+    loadingChartElements.forEach(async (loadingElement) => {
+      await expect(loadingElement).toBeHidden();
+    })
+
     await expect(this.chartElement).toBeVisible();
   }
 
