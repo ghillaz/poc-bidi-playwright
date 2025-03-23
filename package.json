@@ -8,7 +8,7 @@
     "start-server": "npx tsx src/ws-server.ts",
     "test:ui": "dotenvx run -f ${ENV:-.default.env} -- npx playwright test --ui",
     "test:debbug": "dotenvx run -f ${ENV:-.default.env} -- npx playwright test tests/Example2Extra.spec.ts --headed",
-    "test:ci": "dotenvx run -f ${ENV:-.default.env} -- npx playwright test --headless"
+    "test:ci": "dotenvx run -f ${ENV:-.default.env} -- npx playwright test"
   },
   "keywords": [
     "e2e",
