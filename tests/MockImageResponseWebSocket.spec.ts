@@ -1,6 +1,10 @@
 import { test, expect } from '@playwright/test';
 import * as fs from 'fs';
 
+/*
+* This test file is for learning purposes and may not be fully functional
+*/
+
 // Enable headed mode for debugging
 test.use({ headless: false });
 

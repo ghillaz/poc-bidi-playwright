@@ -1,6 +1,5 @@
 import { test, expect } from '@playwright/test';
 import { CoinMarketCapPage } from "@/pages/coinmarketcap-page";
-import { PlaywrightGetStartedPage } from "../src/pages/playwright-getstarted-page";
 
 // Mocked responses for different WebSocket subscriptions
 const mockResponse5s = {
@@ -73,28 +72,6 @@ test.beforeEach(async ({ page }) => {
         ws.send(JSON.stringify(mockResponse15s));
       }
     });
-
-/*
-     //Server Side
-    server.onMessage(message => {
-      const messageStr = message.toString();
-      console.log('Intercepted WebSocket message:', message);
-
-      const parsedMessage = JSON.parse(messageStr);
-      const subscription = parsedMessage.params?.[0];
-
-      if (subscription?.includes("crypto_price_5s")) {
-        console.log('Sending mocked response for 5s:', JSON.stringify(mockResponse5s));
-        ws.send(JSON.stringify(mockResponse5s));
-      }
-
-      if (subscription?.includes("crypto_price_15s")) {
-        console.log('Sending mocked response for 15s:', JSON.stringify(mockResponse15s));
-        ws.send(JSON.stringify(mockResponse15s));
-      }
-    });
-    //ws.close();
-*/
   });
 });
 
