@@ -10,11 +10,9 @@ export class PlaywrightGetStartedPage {
   // Elements on the page
   constructor(page: Page) {
     this.page = page;
-    this.getStartedInstallationHeader = page.locator("h1",
-      { hasText: "Installation" });
+    this.getStartedInstallationHeader = page.locator("h1", { hasText: "Installation" });
     //this.new = page.locator('xpath=//a[contains(text(), "New")]'); // Example of using xpath
-    this.getInstallationHeader = page.getByRole("heading",
-      { name: "Installation" }); //other way to get the locator
+    this.getInstallationHeader = page.getByRole("heading", { name: "Installation" }); //other way to get the locator
     this.pomLink = page.locator("li", { hasText: "Guides" }).locator("a", {
       //hasText: 'Page Object Model', // ATTENTION TO THIS
       hasText: /^Page object models$/, // Case-sensitive text using regex
@@ -39,12 +37,11 @@ export class PlaywrightGetStartedPage {
       `Run single test, multiple tests, headed mode`,
       `Generate tests with Codegen`,
       `See a trace of your tests`,
-    ])
+    ]);
   }
 
   // Click "Page Object Model" link.
   async goToPageObjectModelPage() {
     await this.pomLink.click();
   }
-
 }

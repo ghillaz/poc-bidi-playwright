@@ -10,8 +10,8 @@ test("getting started should contain table of contents", async ({ page }) => {
   await playwrightDev.goToUrl();
   await playwrightDev.checkTitle();
   await playwrightDev.goToGetStartedPage();
-  await playwrightGetStarted.validateGetStartedHeader()
-  await playwrightGetStarted.validateTocList()
+  await playwrightGetStarted.validateGetStartedHeader();
+  await playwrightGetStarted.validateTocList();
 });
 
 test("should show Page Object Model article", async ({ page }) => {

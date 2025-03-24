@@ -16,6 +16,8 @@ module.exports = {
   plugins: [
     '@typescript-eslint',
   ],
+  files: ["src/**/*.ts", "tests/**/*.ts"],
+  ignores: [".default.env"],
   rules: {
     // Add your custom rules here
   },

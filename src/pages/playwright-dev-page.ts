@@ -10,8 +10,7 @@ export class PlaywrightDevPage {
   constructor(page: Page) {
     this.page = page;
     this.getStartedButton = page.locator("a", { hasText: "Get started" });
-    this.getStartedFooterLink = page.locator(".footer__link-item",
-      { hasText: "Getting started" });
+    this.getStartedFooterLink = page.locator(".footer__link-item", { hasText: "Getting started" });
   }
 
   // Go to the Playwright.dev page by URL
@@ -29,5 +28,4 @@ export class PlaywrightDevPage {
     await expect(this.getStartedFooterLink).toContainText("Getting started");
     await this.getStartedButton.first().click();
   }
-
 }

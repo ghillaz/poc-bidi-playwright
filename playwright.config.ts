@@ -25,10 +25,10 @@ export default defineConfig({
     ],
     ["html", { open: process.env.CI ? "never" : "on-failure" }],
   ],
-  timeout: 10000,
+  timeout: 5000,
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    headless: process.env.CI ? true : false,
+    headless: !!process.env.CI,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
     screenshot: "on",
@@ -75,8 +75,5 @@ export default defineConfig({
     // },
   ],
   /* Ignore specific test files */
-  testIgnore: [
-    'tests/MockImageResponseWebSocket.spec.ts',
-    'tests/WebSocketRouteOptions.spec.ts'
-  ],
+  testIgnore: ["tests/MockImageResponseWebSocket.spec.ts", "tests/WebSocketRouteOptions.spec.ts"],
 });
