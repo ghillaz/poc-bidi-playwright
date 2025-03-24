@@ -49,6 +49,14 @@ const mockResponse15s = {
 };
 
 test.beforeEach(async ({ page }) => {
+
+});
+
+test("Mock WebSocket messages and verify price update", async ({ page }) => {
+  const coinMarketCapPage = new CoinMarketCapPage(page);
+
+  // Note that only `WebSocket`s created after this method ('routeWebSocket') was called will be routed.
+  // It is recommended to call this method before navigating the page.
   await page.routeWebSocket(`${process.env.WEB_SOCKET_URL}`, (ws) => {
     ws.onMessage((message) => {
       const messageStr = message.toString();
@@ -68,13 +76,7 @@ test.beforeEach(async ({ page }) => {
       }
     });
   });
-});
 
-test("Mock WebSocket messages and verify price update", async ({ page }) => {
-  const coinMarketCapPage = new CoinMarketCapPage(page);
-
-  // Note that only `WebSocket`s created after this method was called will be routed. It is recommended to call this
-  // method before navigating the page.
   await page.goto(`${process.env.BTC_URL}`);
 
   // Wait for the page to load -> Flaky Test
