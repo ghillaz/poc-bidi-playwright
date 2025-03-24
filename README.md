@@ -54,13 +54,12 @@ file in the root of the project, with proper values for the environment variable
 When running it relies on [dotenvx] to manage environment variables and support
 multiple environments.
 
-Create a file named `.local.env` in the root of the project with the following content:
+Create a file named `.default.env` in the root of the project with the following content:
 
-| Environment Variable                | Description                                                   |
-|-------------------------------------|---------------------------------------------------------------|
-| `PAGE_URL`                          | URL of the application page.                                  |
-| `USER_USERNAME`                     | Username for the user account used in tests.                  |
-| `USER_PASSWORD`                     | Password for the user account used in tests.                  |
+| Environment Variable                | Description                         |
+|-------------------------------------|-------------------------------------|
+| `BASE_URL`                          | URL of the application page.        |
+| `WEB_SOCKET_URL`                    | Websocket URL for testing purposes. |
 
 ### Running the tests
 
@@ -75,6 +74,15 @@ If you want to run with UI you can run:
 ```shell script
 dotenvx run -f ${ENV:-.default.env} -- npx playwright test --ui
 ```
+
+If you want to debug:
+
+```shell script
+dotenvx run -f ${ENV:-.default.env} -- npx playwright test path/to-test --headed --debug
+```
+
+Check the available options in [package.json](package.json) file.
+
 
 ## CI/CD 🔄
 
