@@ -28,7 +28,7 @@ export class CoinMarketCapPage {
     const loadingChartElements = await this.loadingChart.all();
     for (const loadingElement of loadingChartElements) {
       await expect(loadingElement).toBeHidden();
-    }q
+    }
 
     await expect(this.chartElement).toBeVisible();
   }

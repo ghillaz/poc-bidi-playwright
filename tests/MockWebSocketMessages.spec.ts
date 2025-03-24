@@ -1,8 +1,11 @@
 import { test, expect } from "@playwright/test";
+import { CoinMarketCapPage } from "@/pages/coinmarketcap-page";
 
 test("Mock WebSocket messages on CoinMarketCap and debug", async ({ page }) => {
+  const coinMarketCapPage = new CoinMarketCapPage(page);
+
   // Intercept and mock WebSocket
-  await page.routeWebSocket("wss://push.coinmarketcap.com/ws?device=web&client_source=coin_detail_page", (ws) => {
+  await page.routeWebSocket(`${process.env.WEB_SOCKET_URL}`, (ws) => {
     ws.onMessage((message) => {
       console.log("Intercepted message:", message);
       const mockResponse = { method: "SUBSCRIPTION_UPDATE", params: ["potatoes"] };
@@ -12,7 +15,7 @@ test("Mock WebSocket messages on CoinMarketCap and debug", async ({ page }) => {
   });
 
   // Navigate to the site
-  await page.goto("https://coinmarketcap.com/currencies/bitcoin/");
+  await page.goto(`${process.env.BTC_URL}`);
 
   // Force UI update by setting 'potatoes' in the page using data-test attribute
   await page.evaluate(() => {
