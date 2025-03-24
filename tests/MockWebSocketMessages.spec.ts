@@ -24,7 +24,7 @@ test('Mock WebSocket messages on CoinMarketCap and debug', async ({ page }) => {
 
 
   // Pause execution for debugging
-  await page.pause();
+  // await page.pause();
 
   // Verify page title as a simple assertion
   await expect(page).toHaveTitle(/Bitcoin/i);

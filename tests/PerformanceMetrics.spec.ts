@@ -1,8 +1,4 @@
 import { test, expect } from '@playwright/test';
-import * as fs from 'fs';
-
-// Enable headed mode for debugging
-test.use({ headless: false });
 
 // Example 4: Performance Metrics via DevTools Protocol
 test('Get performance metrics on Playwright website', async ({ page, browser }) => {

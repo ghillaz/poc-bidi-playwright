@@ -1,9 +1,6 @@
 import { test, expect } from '@playwright/test';
 import * as fs from 'fs';
 
-// Enable headed mode for debugging
-test.use({ headless: false });
-
 // Example 1: Intercept and Replace an Image with a Local File
 test('Intercept and replace image with a local file', async ({ page }) => {
   const imagePath = 'iologo.png'; // Change this to your actual image path

@@ -48,7 +48,6 @@ const mockResponse15s = {
   c: "main-site@crypto_price_15s@1@detail"
 };
 
-
 test.beforeEach(async ({ page }) => {
 
   await page.routeWebSocket(`${process.env.WEB_SOCKET_URL}`, ws => {
